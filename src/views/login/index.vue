@@ -56,9 +56,17 @@ export default {
   },
   methods: {
     ruleForm () {
-      this.$refs.LoginRef.validate(function (isOk) {
+      this.$refs.LoginRef.validate((isOk) => {
         if (isOk) {
-          console.log('校验成功')
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginForm
+          }).then((result) => {
+            window.localStorage.setItem('user-token', result.data.data.token)
+          }).catch(() => {
+
+          })
         }
       })
     }
