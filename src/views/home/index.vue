@@ -7,7 +7,10 @@
             <el-header style="height:60px;background-color:#cccccc">
                 <header-top ></header-top>
             </el-header>
-            <el-main>内容区域</el-main>
+            <el-main>
+                <!-- 二级路由 -->
+                <router-view></router-view>
+            </el-main>
         </el-container>
     </el-container>
 </template>
