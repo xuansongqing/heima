@@ -13,13 +13,9 @@
 </template>
 
 <script>
-import zuoCe from '../../components/home/zuoce'
-import header from '../../components/home/header'
+
 export default {
-  components: {
-    'zuoce': zuoCe,
-    'header-top': header
-  }
+
 }
 </script>
 
