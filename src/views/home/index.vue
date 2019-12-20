@@ -4,7 +4,9 @@
           <zuoce></zuoce>
         </el-aside>
         <el-container>
-            <el-header>头部</el-header>
+            <el-header style="height:60px;background-color:#cccccc">
+                <header-top ></header-top>
+            </el-header>
             <el-main>内容区域</el-main>
         </el-container>
     </el-container>
@@ -12,9 +14,11 @@
 
 <script>
 import zuoCe from '../../components/home/zuoce'
+import header from '../../components/home/header'
 export default {
   components: {
-    'zuoce': zuoCe
+    'zuoce': zuoCe,
+    'header-top': header
   }
 }
 </script>
