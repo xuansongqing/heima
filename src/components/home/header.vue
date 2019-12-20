@@ -14,14 +14,14 @@
              <div class="headerImg">
                  <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt="">
              </div>
-             <el-dropdown  style="height:50px">
+             <el-dropdown  style="height:50px" @command="handleCommand">
                   <span class="el-dropdown-link">
                     {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>个人信息</el-dropdown-item>
-                    <el-dropdown-item>git地址</el-dropdown-item>
-                    <el-dropdown-item divided>退出</el-dropdown-item>
+                    <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                    <el-dropdown-item command="git">git地址</el-dropdown-item>
+                    <el-dropdown-item command="lgout" divided>退出</el-dropdown-item>
                   </el-dropdown-menu>
              </el-dropdown>
             </el-row>
@@ -49,6 +49,18 @@ export default {
     }).then((result) => {
       this.userInfo = result.data.data
     })
+  },
+  methods: {
+    handleCommand (command) {
+      if (command === 'info') {
+
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/xuansongqing/heima/commits/master'
+      } else {
+        window.localStorage.removeItem('user-token')
+        this.$router.push('/login')
+      }
+    }
   }
 
 }
