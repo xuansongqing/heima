@@ -12,11 +12,11 @@
              </el-input>
              <span>消息</span>
              <div class="headerImg">
-                 <img src="../../assets/img/beijing.jpg" alt="">
+                 <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt="">
              </div>
              <el-dropdown  style="height:50px">
                   <span class="el-dropdown-link">
-                    喜羊羊<i class="el-icon-arrow-down el-icon--right"></i>
+                    {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>个人信息</el-dropdown-item>
@@ -32,6 +32,24 @@
 
 <script>
 export default {
+  data () {
+    return {
+      userInfo: {},
+      defaultImg: require('../../assets/img/beijing.jpg')
+    }
+  },
+
+  created () {
+    let token = localStorage.getItem('user-token')
+    this.$axios({
+      url: '/user/profile',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((result) => {
+      this.userInfo = result.data.data
+    })
+  }
 
 }
 </script>
