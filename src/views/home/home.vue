@@ -16,9 +16,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-      .block{
-        // background-image: url('https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg');
-        height: 100vh;
-        background-size: cover;
-      }
+
 </style>
