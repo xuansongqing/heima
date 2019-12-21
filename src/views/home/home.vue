@@ -1,7 +1,7 @@
 <template>
   <div class="block" >
     <span class="demonstration"></span>
-    <el-image  style="height: 600px;" :src="src"></el-image>
+    <el-image  style="height: 600px" :src="src"></el-image>
   </div>
 </template>
 
@@ -15,6 +15,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+      .block{
+        // background-image: url('https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg');
+        height: 100vh;
+        background-size: cover;
+      }
 </style>

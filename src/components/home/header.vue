@@ -12,7 +12,7 @@
              </el-input>
              <span>消息</span>
              <div class="headerImg">
-                 <img :src="!userInfo.photo ? userInfo.photo : defaultImg" alt="">
+                 <img :src="userInfo.photo ? userInfo.photo : defaultImg" alt="">
              </div>
              <el-dropdown  style="height:50px" @command="handleCommand">
                   <span class="el-dropdown-link">
