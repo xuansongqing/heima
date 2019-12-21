@@ -65,11 +65,6 @@ export default {
           }).then((result) => {
             window.localStorage.setItem('user-token', result.data.token)
             this.$router.push('/')
-          }).catch(() => {
-            this.$message({
-              type: 'aeee',
-              message: '手机号或验证码错误'
-            })
           })
         }
       })

@@ -1,5 +1,7 @@
 // axios拦截器
 import axios from 'axios'
+import router from '../router'
+import { Message } from 'element-ui'
 // 请求拦截器
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 axios.interceptors.request.use(function (config) {
@@ -13,8 +15,28 @@ function () {})
 axios.interceptors.response.use(function (response) {
   return response.data ? response.data : {}
 },
-function () {
-
+function (error) {
+  let status = error.response.status
+  let message = ''
+  switch (status) {
+    case 400:
+      message = '手机号或验证码错误'
+      break
+    case 403:
+      message = 'refresh_token未携带或已过期'
+      break
+    case 507:
+      message = '服务器数据库异常'
+      break
+    case 401:
+      // message = '服务器数据库异常'
+      window.localStorage.removeItem('user-token')
+      router.push('/login')
+      break
+    default:
+      break
+  }
+  Message({ message })
 })
 
 export default axios
