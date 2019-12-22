@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside style="height:100vh;background-color:#353b4e;width:230px">
+        <el-aside style="min-height:100vh;background-color:#353b4e;width:230px">
           <zuoce></zuoce>
         </el-aside>
         <el-container>

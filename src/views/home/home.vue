@@ -1,7 +1,7 @@
 <template>
   <div class="block" >
     <span class="demonstration"></span>
-    <el-image  style="height: 600px" :src="src"></el-image>
+    <el-image :src="src"></el-image>
   </div>
 </template>
 
