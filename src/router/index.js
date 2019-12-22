@@ -19,7 +19,12 @@ const routes = [
     children: [{
       path: '', // 二级路由什么都不写，代表默认组件
       component: Home2
-    }]
+    },
+    {
+      path: 'comment',
+      component: () => import('../views/common')
+    }
+    ]
 
   },
   {
