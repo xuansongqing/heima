@@ -2,7 +2,7 @@
   <!-- //面包屑 -->
   <el-breadcrumb separator=">">
       <el-breadcrumb-item to="/home">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>评论管理
+      <el-breadcrumb-item>
           <!-- 具名插槽 -->
           <slot name="title"></slot>
       </el-breadcrumb-item>
