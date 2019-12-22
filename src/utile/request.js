@@ -20,7 +20,7 @@ function (error) {
   let message = ''
   switch (status) {
     case 400:
-      message = '手机号或验证码错误'
+      message = '请求数据错误'
       break
     case 403:
       message = 'refresh_token未携带或已过期'
