@@ -2,6 +2,7 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
+import JsonBigin from 'json-bigint'
 // 请求拦截器
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 axios.interceptors.request.use(function (config) {
@@ -11,6 +12,12 @@ axios.interceptors.request.use(function (config) {
   return config
 },
 function () {})
+
+// 处理关闭打开评论
+axios.defaults.transformResponse = [function (data) {
+  return JsonBigin.parse(data)
+}]
+
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
   return response.data ? response.data : {}
@@ -36,7 +43,8 @@ function (error) {
     default:
       break
   }
-  Message({ message })
+  Message({ message })// 提示信息
+  return Promise.reject(error)
 })
 
 export default axios

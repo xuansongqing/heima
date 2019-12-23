@@ -7,30 +7,17 @@ import Home2 from '../views/home/home.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/home'
-
-  },
+  { path: '/', redirect: '/home' },
   {
     path: '/home',
     // name: 'home',
     component: Home,
-    children: [{
-      path: '', // 二级路由什么都不写，代表默认组件
-      component: Home2
-    },
-    {
-      path: 'comment',
-      component: () => import('../views/comment')
-    }
-    ]
-
+    children: [
+      // 二级路由什么都不写，代表默认组件
+      { path: '', component: Home2 },
+      { path: 'comment', component: () => import('../views/comment') }]
   },
-  {
-    path: '/login',
-    component: Login
-  }
+  { path: '/login', component: Login }
   // {
   //   path: '/about',
   //   name: 'about',

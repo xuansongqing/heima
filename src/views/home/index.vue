@@ -7,7 +7,7 @@
             <el-header style="height:60px;background-color:#cccccc">
                 <header-top ></header-top>
             </el-header>
-            <el-main style="padding:0">
+            <el-main >
                 <!-- 二级路由容器 -->
                 <router-view></router-view>
             </el-main>

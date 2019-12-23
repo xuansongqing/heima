@@ -27,7 +27,7 @@ export default {
     }
   },
   methods: {
-    getCommon () {
+    getComment () {
       this.$axios({
         url: '/articles',
         params: { response_type: 'comment' }
@@ -38,22 +38,25 @@ export default {
     functionFormatter (row, column, cellValue, index) {
       return cellValue ? '正常' : '关闭'
     },
+    // 打开或关闭评论
     openOrdown (row) {
       let mess = row.comment_status ? '关闭' : '打开'
       this.$confirm(`确定${mess}评论吗？`, '提示', {}).then(() => {
         this.$axios({
           url: '/comments/status',
           method: 'put',
-          params: { article_id: row.id },
+          params: { article_id: row.id.toString() },
           data: { allow_comment: !row.comment_status }
         }).then(result => {
-          this.getCommon()
+          this.getComment()
+        }).cath(() => {
+
         })
       })
     }
   },
   created () {
-    this.getCommon()
+    this.getComment()
   }
 
 }
