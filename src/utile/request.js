@@ -44,7 +44,6 @@ function (error) {
       break
   }
   Message({ message })// 提示信息
-  return Promise.reject(error)
 })
 
 export default axios

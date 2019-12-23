@@ -49,8 +49,6 @@ export default {
           data: { allow_comment: !row.comment_status }
         }).then(result => {
           this.getComment()
-        }).cath(() => {
-
         })
       })
     }
