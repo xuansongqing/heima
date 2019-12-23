@@ -50,7 +50,7 @@ export default {
       this.loading = true
       this.$axios({
         url: '/articles',
-        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSiae }
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then((result) => {
         this.list = result.data.results
         this.page.total = result.data.total_count

@@ -23,6 +23,14 @@
             </div>
         </el-tab-pane>
     </el-tabs>
+     <el-row type="flex" justify="center" style="height:60px" align="middle">
+                 <el-pagination background layout="prev, pager, next"
+                :current-page="page.currentPage"
+                :page-size="page.pageSize"
+                :total="page.total"
+                @current-change="changPage">
+            </el-pagination>
+        </el-row>
   </el-card>
 </template>
 
@@ -31,21 +39,33 @@ export default {
   data () {
     return {
       activeName: 'all',
-      list: []
+      list: [],
+      page: {
+        total: 0, // 总页数
+        pageSize: 8, // 每页条数
+        currentPage: 1// 当前页数
+      }
     }
   },
   methods: {
+    // 点击改变页数
+    changPage (newPage) {
+      this.page.currentPage = newPage
+      this.getImg()
+    },
     // 切换页签
     handleClick () {
+      this.page.currentPage = 1
       this.getImg()
     },
     // 获取图片素材
     getImg () {
       this.$axios({
         url: '/user/images',
-        params: { collect: this.activeName === 'scend' }
+        params: { collect: this.activeName === 'scend', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then((result) => {
         this.list = result.data.results
+        this.page.total = result.data.total_count
       })
     }
   },
