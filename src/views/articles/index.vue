@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card class="articlesCard">
        <bread-crumbs slot="header">
            <template slot="title">内容列表</template>
        </bread-crumbs>
@@ -32,6 +32,25 @@
                 </el-date-picker>
             </el-form-item>
        </el-form>
+       <el-row class="title" type="flex" align="middle">
+           <span>共找到62299条符合条件的内容</span>
+       </el-row>
+       <div class="item-articles" v-for="item in 20" :key="item">
+           <!-- 左侧 -->
+            <div class="left">
+                <img src="../../assets/img/beijing.jpg" alt="">
+                <div class="info">
+                    <span>他天天好好体会一年一零年一篇</span>
+                    <el-tag class="infoTabl">标签一</el-tag>
+                    <span class="infoData">2019-12-24 17:59:46</span>
+                </div>
+            </div>
+            <!-- 右侧 -->
+            <div class="right">
+                <span><i class="el-icon-edit"> 修改 </i></span>
+                <span><i class="el-icon-delete"> 删除 </i></span>
+            </div>
+       </div>
   </el-card>
 </template>
 
@@ -64,7 +83,48 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .articles{
+    .articlesCard{
+     .articles{
         margin-left:30px;
+        }
+    .title{
+        height: 60px;
+        border-bottom: 1px dashed #ccc;
+      }
+      .item-articles{
+          display: flex;
+          justify-content: space-between;
+          padding: 20px 0;
+          border-bottom: 1px solid #f2f3f5;
+          .left{
+              display: flex;
+              img{
+                 width: 200px;
+                 height: 100px;
+                 border-radius: 5px;
+              }
+              .info{
+                  margin-left: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-around;
+                  .infoData{
+                      color: #ccc;
+                      font-size: 12px;
+                  }
+                  .infoTabl{
+                      width: 60px;
+                  }
+              }
+          }
+          .right{
+              span{
+                 font-size: 14px;
+                 margin-right: 10px;
+                 cursor: pointer;
+              }
+          }
+      }
     }
+
 </style>
