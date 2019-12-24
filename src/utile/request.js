@@ -15,7 +15,7 @@ function () {})
 
 // 处理关闭打开评论
 axios.defaults.transformResponse = [function (data) {
-  return JsonBigin.parse(data)
+  return data ? JsonBigin.parse(data) : {}
 }]
 
 // 响应拦截器
