@@ -6,7 +6,7 @@
        <el-form class="articles">
            <el-form-item label="文章状态 :">
                 <!-- 放置一个单选组  文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部-->
-               <el-radio-group v-model="radioForm.status">
+               <el-radio-group v-model="radioForm.status" @change="changeSan">
                    <el-radio :label="5">全部</el-radio>
                    <el-radio :label="0">草稿</el-radio>
                    <el-radio :label="1">待审核</el-radio>
@@ -17,7 +17,7 @@
            </el-form-item>
            <el-form-item label="频道列表 :">
                <!-- {{ channels }} -->
-                <el-select placeholder="请选择" v-model="radioForm.channel_id">
+                <el-select placeholder="请选择频道" v-model="radioForm.channel_id" @change="changeSan">
                     <!-- el-option label是显示值 value是存储值 -->
                   <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
@@ -25,6 +25,8 @@
            </el-form-item>
            <el-form-item label="时间选择 :">
                <el-date-picker
+                    @change="changeSan"
+                    value-format="yyyy-MM-dd"
                     v-model="radioForm.dataRang"
                     type="daterange"
                     start-placeholder="开始日期"
@@ -38,7 +40,7 @@
        <div class="item-articles" v-for="item in list" :key="item.id.toString()">
            <!-- 左侧 -->
             <div class="left">
-                <img :src='item.cover.images.length ? item.cover.images : defaultImg' alt="">
+                <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
                 <div class="info">
                     <span>{{item.title}}</span>
                     <el-tag :type='item.status | filtersType' class="infoTabl">{{item.status | filtersStatus}}</el-tag>
@@ -100,10 +102,21 @@ export default {
     }
   },
   methods: {
+    // 改变条件
+    changeSan () {
+      let params = {
+        status: this.radioForm.status === 5 ? null : this.radioForm.status,
+        channel_id: this.radioForm.channel_id,
+        begin_pubdate: this.radioForm.dataRang.length ? this.radioForm.dataRang[0] : null, // 开始时间
+        end_pubdate: this.radioForm.dataRang.length > 1 ? this.radioForm.dataRang[1] : null // 结束时间
+      }
+      this.getArticles(params)
+    },
     // 获取内容列表数据
-    getArticles () {
+    getArticles (params) {
       this.$axios({
-        url: '/articles'
+        url: '/articles',
+        params
       }).then(result => {
         this.list = result.data.results
       })
