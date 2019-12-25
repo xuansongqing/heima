@@ -35,14 +35,14 @@
        <el-row class="title" type="flex" align="middle">
            <span>共找到62299条符合条件的内容</span>
        </el-row>
-       <div class="item-articles" v-for="item in 20" :key="item">
+       <div class="item-articles" v-for="item in list" :key="item.id.toString()">
            <!-- 左侧 -->
             <div class="left">
-                <img src="../../assets/img/beijing.jpg" alt="">
+                <img :src='item.cover.images.length ? item.cover.images : defaultImg' alt="">
                 <div class="info">
-                    <span>他天天好好体会一年一零年一篇</span>
-                    <el-tag class="infoTabl">标签一</el-tag>
-                    <span class="infoData">2019-12-24 17:59:46</span>
+                    <span>{{item.title}}</span>
+                    <el-tag :type='item.status | filtersType' class="infoTabl">{{item.status | filtersStatus}}</el-tag>
+                    <span class="infoData">{{item.pubdate}}</span>
                 </div>
             </div>
             <!-- 右侧 -->
@@ -63,10 +63,51 @@ export default {
         channel_id: null, // 默认分类都不选择
         dataRang: []
       },
-      channels: [] // 频道值
+      channels: [], // 频道值
+      list: [],
+      defaultImg: require('../../assets/img/beijing.jpg')
+    }
+  },
+  filters: {
+    //    文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除
+    filtersStatus (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+        default:
+          break
+      }
+    },
+    filtersType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+        default:
+          break
+      }
     }
   },
   methods: {
+    // 获取内容列表数据
+    getArticles () {
+      this.$axios({
+        url: '/articles'
+      }).then(result => {
+        this.list = result.data.results
+      })
+    },
     // 获取全部频道
     getChannels () {
       this.$axios({
@@ -78,6 +119,7 @@ export default {
   },
   created () {
     this.getChannels()
+    this.getArticles()
   }
 }
 </script>
@@ -113,7 +155,8 @@ export default {
                       font-size: 12px;
                   }
                   .infoTabl{
-                      width: 60px;
+                      width: 80px;
+                      text-align: center;
                   }
               }
           }
