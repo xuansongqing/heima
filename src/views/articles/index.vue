@@ -35,7 +35,7 @@
             </el-form-item>
        </el-form>
        <el-row class="title" type="flex" align="middle">
-           <span>共找到62299条符合条件的内容</span>
+           <span>共找到{{page.total}}条符合条件的内容</span>
        </el-row>
        <div class="item-articles" v-for="item in list" :key="item.id.toString()">
            <!-- 左侧 -->
@@ -50,7 +50,7 @@
             <!-- 右侧 -->
             <div class="right">
                 <span><i class="el-icon-edit"> 修改 </i></span>
-                <span><i class="el-icon-delete"> 删除 </i></span>
+                <span @click="delArticles(item.id)"><i class="el-icon-delete"> 删除 </i></span>
             </div>
        </div>
       <el-row type="flex" justify="center" style="height:60px" align="middle">
@@ -117,6 +117,23 @@ export default {
     }
   },
   methods: {
+    // 删除数据
+    delArticles (id) {
+      this.$confirm('是否删除该数据?').then(result => {
+        this.$axios({
+          method: 'delete',
+          url: `/articles/${id.toString()}`
+        }).then(result => {
+          // 提示
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          // 重拉数据
+          this.getEncapsulation()
+        })
+      })
+    },
     // 改变页码
     changePage (newPage) {
       this.page.currentPage = newPage
