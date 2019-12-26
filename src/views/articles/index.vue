@@ -53,6 +53,16 @@
                 <span><i class="el-icon-delete"> 删除 </i></span>
             </div>
        </div>
+      <el-row type="flex" justify="center" style="height:60px" align="middle">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :page-size='page.pageSizw'
+              :current-page='page.currentPage'
+              :total="page.total"
+              @current-change="changePage">
+            </el-pagination>
+       </el-row>
   </el-card>
 </template>
 
@@ -67,7 +77,12 @@ export default {
       },
       channels: [], // 频道值
       list: [],
-      defaultImg: require('../../assets/img/beijing.jpg')
+      defaultImg: require('../../assets/img/beijing.jpg'),
+      page: {
+        total: 0, // 总页数
+        pageSize: 10, // 每页条数
+        currentPage: 1// 当前页数
+      }
     }
   },
   filters: {
@@ -102,9 +117,21 @@ export default {
     }
   },
   methods: {
+    // 改变页码
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.getEncapsulation()
+    },
     // 改变条件
     changeSan () {
+      this.page.currentPage = 1
+      this.getEncapsulation()
+    },
+    // 封装
+    getEncapsulation () {
       let params = {
+        page: this.page.currentPage,
+        per_page: this.page.pageSize,
         status: this.radioForm.status === 5 ? null : this.radioForm.status,
         channel_id: this.radioForm.channel_id,
         begin_pubdate: this.radioForm.dataRang.length ? this.radioForm.dataRang[0] : null, // 开始时间
@@ -119,6 +146,7 @@ export default {
         params
       }).then(result => {
         this.list = result.data.results
+        this.page.total = result.data.total_count
       })
     },
     // 获取全部频道
@@ -132,7 +160,7 @@ export default {
   },
   created () {
     this.getChannels()
-    this.getArticles()
+    this.getArticles({ page: 1, per_page: 10 })
   }
 }
 </script>
