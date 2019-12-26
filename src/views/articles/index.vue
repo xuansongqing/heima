@@ -73,7 +73,7 @@ export default {
       radioForm: {
         status: 5, // 默认选中全部
         channel_id: null, // 默认分类都不选择
-        dataRang: []
+        dataRang: [] // 时间
       },
       channels: [], // 频道值
       list: [],
