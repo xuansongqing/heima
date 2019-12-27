@@ -49,7 +49,7 @@
             </div>
             <!-- 右侧 -->
             <div class="right">
-                <span><i class="el-icon-edit"> 修改 </i></span>
+                <span><i class="el-icon-edit" @click="toModify(item.id)"> 修改 </i></span>
                 <span @click="delArticles(item.id)"><i class="el-icon-delete"> 删除 </i></span>
             </div>
        </div>
@@ -117,6 +117,10 @@ export default {
     }
   },
   methods: {
+    // 修改参数
+    toModify (id) {
+      this.$router.push(`/home/publish/${id.toString()}`)
+    },
     // 删除数据
     delArticles (id) {
       this.$confirm('是否删除该数据?').then(result => {
