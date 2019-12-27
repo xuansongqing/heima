@@ -3,14 +3,14 @@
       <bread-crumbs slot="header">
             <template slot="title">发布文章</template>
       </bread-crumbs>
-       <el-form ref="publishForm" label-width="80px" :model="formData" :rules="publishRules">
+       <el-form ref="publishForm" label-width="80px" :model="formData" :rules="publishRules" style="padding-left:25px">
               <el-form-item label='标题' prop="title">
                 <el-input v-model="formData.title"></el-input>
               </el-form-item>
               <el-form-item label='内容' prop="content">
-                 <el-input type="textarea" :rows="4" v-model="formData.content"></el-input>
+                 <quill-editor type="textarea" style="height:200px" v-model="formData.content"></quill-editor>
               </el-form-item>
-              <el-form-item label='封面' prop="cover">
+              <el-form-item label='封面' prop="cover" style="margin-top:120px">
                   <el-radio-group v-model="formData.cover.type">
                     <el-radio :label="1">单图</el-radio>
                     <el-radio :label="3">三图</el-radio>
@@ -23,7 +23,6 @@
                   <el-option  v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
-              <hr>
               <el-form-item>
                 <el-row>
                     <el-button type="primary" @click="publishArticles()">发表</el-button>
@@ -80,19 +79,50 @@ export default {
       console.log(this.formData)
       this.$refs.publishForm.validate(isOk => {
         if (isOk) {
-          // 发布文章接口
+          let { id } = this.$route.params // 获取动态路由参数
+
           this.$axios({
-            url: '/articles?draft=true',
-            method: 'post',
-            // params: { draft }, // 查询参数
-            data: this.formData // 请求体参数
+            url: id ? `/articles/${id}` : '/articles',
+            method: id ? 'put' : 'post',
+            params: { draft }, // 查询参数
+            data: this.formData// 请求参数
           }).then(() => {
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: id ? '修改成功' : '发布成功'
             })
             this.$router.push('/home/articles')
           })
+
+          // if (id) {
+          //   // 修改文章
+          //   this.$axios({
+          //     url: `/articles/${id}`,
+          //     method: 'put',
+          //     params: { draft }, // 查询参数
+          //     data: this.formData // 请求体参数
+          //   }).then(() => {
+          //     this.$message({
+          //       type: 'success',
+          //       message: '保存成功'
+          //     })
+          //     this.$router.push('/home/articles')
+          //   })
+          // } else {
+          //   // 发布文章接口
+          //   this.$axios({
+          //     url: '/articles',
+          //     method: 'post',
+          //     params: { draft }, // 查询参数
+          //     data: this.formData // 请求体参数
+          //   }).then(() => {
+          //     this.$message({
+          //       type: 'success',
+          //       message: '保存成功'
+          //     })
+          //     this.$router.push('/home/articles')
+          //   })
+          // }
         }
       })
     },
