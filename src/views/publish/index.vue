@@ -20,7 +20,7 @@
                   <!-- {{formData.cover}} -->
               </el-form-item>
               <!-- 封面组件 -->
-               <cover-image :list="formData.cover.images"></cover-image>
+               <cover-image @selectTwoImg="receiveImg" :list="formData.cover.images"></cover-image>
               <el-form-item label='频道' prop="channel_id" >
                 <el-select placeholder="请选择频道" v-model="formData.channel_id">
                   <el-option  v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -88,6 +88,11 @@ export default {
 
   },
   methods: {
+    // 封面
+    receiveImg (url, index) {
+      // alert(index)
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? url : item)
+    },
     // 封面 显示
     changeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {

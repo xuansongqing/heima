@@ -1,9 +1,13 @@
 <template>
   <div class='image'>
-      <div class="cover-image-item" v-for="(item,index) in list" :key="index" @click="openDialog">
+      <div class="cover-image-item" v-for="(item,index) in list" :key="index" @click="openDialog(index)">
           <img :src="item ? item : defaultImg" alt="">
       </div>
-      <el-dialog :visible='dialogVisible' @close="dialogVisible = false" title="选择图片"></el-dialog>
+      <!-- 弹层 -->
+      <el-dialog :visible='dialogVisible' @close="closeDialog">
+          <!-- 素材库 上传图片 -->
+          <material-image @selectOneImg="receiveImg"></material-image>
+      </el-dialog>
   </div>
 </template>
 
@@ -13,12 +17,23 @@ export default {
   data () {
     return {
       defaultImg: require('../../assets/img/pic_bg.png'),
-      dialogVisible: false // 控制弹层
+      dialogVisible: false, // 控制弹层
+      selectIndex: -1 // 用来存储点击的哪个图片的下标
     }
   },
   methods: {
-    openDialog () {
+    receiveImg (url) {
+    //   alert(this.selectIndex)
+      this.$emit('selectTwoImg', url, this.selectIndex)
+      this.closeDialog()
+    },
+    // 弹层
+    openDialog (index) {
       this.dialogVisible = true // 打开弹层
+      this.selectIndex = index // 记录当前点击的是哪个图片
+    },
+    closeDialog () {
+      this.dialogVisible = false // 关闭弹层
     }
   }
 }
