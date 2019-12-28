@@ -11,14 +11,16 @@
                  <quill-editor type="textarea" style="height:200px" v-model="formData.content"></quill-editor>
               </el-form-item>
               <el-form-item label='封面' prop="cover" style="margin-top:120px">
-                  <el-radio-group v-model="formData.cover.type">
+                  <el-radio-group v-model="formData.cover.type" @change="changeType" >
                     <el-radio :label="1">单图</el-radio>
                     <el-radio :label="3">三图</el-radio>
                     <el-radio :label="0">无图</el-radio>
                     <el-radio :label="-1">自动</el-radio>
                   </el-radio-group>
-                  {{formData.cover}}
+                  <!-- {{formData.cover}} -->
               </el-form-item>
+              <!-- 封面组件 -->
+               <cover-image :list="formData.cover.images"></cover-image>
               <el-form-item label='频道' prop="channel_id" >
                 <el-select placeholder="请选择频道" v-model="formData.channel_id">
                   <el-option  v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -72,9 +74,22 @@ export default {
           channel_id: null // 频道id
         }
       }
-    },
+    }
     // 封面监视 显示
-    'formData.cover.type': function () {
+    // 'formData.cover.type': function () {
+    //   if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //     this.formData.cover.images = [] // 无图或自动
+    //   } else if (this.formData.cover.type === 1) {
+    //     this.formData.cover.images = [''] // 单图
+    //   } else if (this.formData.cover.type === 3) {
+    //     this.formData.cover.images = ['', '', ''] // 三图
+    //   }
+    // }
+
+  },
+  methods: {
+    // 封面 显示
+    changeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         this.formData.cover.images = [] // 无图或自动
       } else if (this.formData.cover.type === 1) {
@@ -82,10 +97,7 @@ export default {
       } else if (this.formData.cover.type === 3) {
         this.formData.cover.images = ['', '', ''] // 三图
       }
-    }
-
-  },
-  methods: {
+    },
     // 手动校验 发布文章
     publishArticles (draft) {
       console.log(this.formData)
