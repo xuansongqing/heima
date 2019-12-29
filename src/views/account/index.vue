@@ -4,8 +4,8 @@
             <template slot="title">账户信息</template>
         </bread-crumbs>
         <el-form label-width='100px' :model="formData" :rules="rules" ref="myForm">
-            <el-form-item label="头像 :" prop='photo'>
-                <el-upload  action='' :show-file-list='false' class="upload-img">
+            <el-form-item label="头像 :">
+                <el-upload  action='' :show-file-list='false' class="upload-img" :http-request="uploadImg">
                   <img :src="formData.photo ? formData.photo : defaultImg" alt="">
                 </el-upload>
             </el-form-item>
@@ -50,6 +50,18 @@ export default {
     }
   },
   methods: {
+    // 头像
+    uploadImg (parmas) {
+      let data = new FormData()
+      data.append('photo', parmas.file)
+      this.$axios({
+        url: '/user/photo',
+        method: 'patch',
+        data
+      }).then(result => {
+        this.formData.photo = result.data.photo
+      })
+    },
     // 保存用户信息
     saveUserInfo () {
       this.$refs.myForm.validate().then(() => {
