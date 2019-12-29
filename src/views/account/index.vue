@@ -6,20 +6,20 @@
         <el-form label-width='100px'>
             <el-form-item label="头像 :">
                 <el-upload  action='' :show-file-list='false' class="upload-img">
-                  <img src="../../assets/img/beijing.jpg" alt="">
+                  <img :src="formData.photo ? formData.photo : defaultImg" alt="">
                 </el-upload>
             </el-form-item>
             <el-form-item label='用户名 :'>
-                <el-input style="width:60%"></el-input>
+                <el-input v-model="formData.name" style="width:60%"></el-input>
             </el-form-item>
             <el-form-item label='简介 :'>
-                 <el-input style="width:60%"></el-input>
+                 <el-input v-model="formData.intro" style="width:60%"></el-input>
             </el-form-item>
             <el-form-item label='邮箱:'>
-                 <el-input style="width:60%"></el-input>
+                 <el-input v-model="formData.email" style="width:60%"></el-input>
             </el-form-item>
             <el-form-item label='手机号 :'>
-                 <el-input style="width:60%" disabled></el-input>
+                 <el-input v-model="formData.mobile" style="width:60%" disabled></el-input>
             </el-form-item>
             <el-form-item >
                 <el-button type="primary">保存信息</el-button>
@@ -31,7 +31,31 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      formData: {
+        name: '',
+        intro: '',
+        email: '',
+        mobile: '',
+        photo: ''
+      },
+      defaultImg: require('../../assets/img/beijing.jpg')
+    }
+  },
+  methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      }).then((result) => {
+        // console.log(result)
+        this.formData = result.data
+      })
+    }
+  },
+  created () {
+    this.getUserInfo()
+  }
 }
 </script>
 
