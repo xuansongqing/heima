@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import evenBus from '../../utile/evenBus'
 export default {
   data () {
     return {
@@ -38,19 +39,19 @@ export default {
       defaultImg: require('../../assets/img/beijing.jpg')
     }
   },
-
-  created () {
-    // let token = localStorage.getItem('user-token')
-    this.$axios({
-      url: '/user/profile'
+  methods: {
+    // 封装 获取用户信息
+    getuserInfo () {
+      // let token = localStorage.getItem('user-token')
+      this.$axios({
+        url: '/user/profile'
       // headers: {
       //   Authorization: `Bearer ${token}`
       // }
-    }).then((result) => {
-      this.userInfo = result.data
-    })
-  },
-  methods: {
+      }).then((result) => {
+        this.userInfo = result.data
+      })
+    },
     handleCommand (command) {
       if (command === 'info') {
         this.$router.push('/home/userinfo')
@@ -61,6 +62,14 @@ export default {
         this.$router.push('/login')
       }
     }
+  },
+  created () {
+    this.getuserInfo()
+    // 开启监听
+    evenBus.$on('updataUserInfo', () => {
+      // 认为别人更新了数据，自己也更新数据
+      this.getuserInfo()
+    })
   }
 
 }

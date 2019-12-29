@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import evenBus from '../../utile/evenBus.js'
 export default {
   data () {
     return {
@@ -74,6 +75,8 @@ export default {
             type: 'success',
             message: '保存成功'
           })
+          // 认为保存成功 通知header组件更新信息
+          evenBus.$emit('updataUserInfo')
         })
       })
     },
