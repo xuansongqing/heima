@@ -19,7 +19,9 @@
         </el-row>
     </el-tab-pane>
     <el-tab-pane label="上传图片" name="second">
-        上传图片
+        <el-upload action='' :show-file-list='false' :http-request="uploadImg" class="img-upload">
+          <i class="el-icon-plus"></i>
+        </el-upload>
     </el-tab-pane>
   </el-tabs>
   </div>
@@ -39,6 +41,18 @@ export default {
     }
   },
   methods: {
+    // 上传图片
+    uploadImg (params) {
+      let data = new FormData()
+      data.append('image', params.file) // 加入参数
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(result => {
+        this.$emit('selectOneImg', result.data.url)
+      })
+    },
     // 点击图片
     clickImg (url) {
       this.$emit('selectOneImg', url) //  点击图片时  => 要把图片传给显示的封面 自定义事件
@@ -81,5 +95,14 @@ export default {
                    height: 100%;
                  }
         }
+    }
+    .img-upload{
+      margin-left: 30px;
+      i{
+        font-size: 50px;
+        padding: 50px;
+        border: 1px dashed #ccc;
+        border-radius: 5px;
+      }
     }
 </style>
