@@ -19,7 +19,8 @@ const routes = [
       { path: 'material', component: () => import('../views/material') },
       { path: 'articles', component: () => import('../views/articles') },
       { path: 'publish', component: () => import('../views/publish') },
-      { path: 'publish/:id', component: () => import('../views/publish') }
+      { path: 'publish/:id', component: () => import('../views/publish') },
+      { path: 'userinfo', component: () => import('../views/account') }
     ]
   },
   { path: '/login', component: Login }

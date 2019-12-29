@@ -53,7 +53,7 @@ export default {
   methods: {
     handleCommand (command) {
       if (command === 'info') {
-
+        this.$router.push('/home/userinfo')
       } else if (command === 'git') {
         window.location.href = 'https://github.com/xuansongqing/heima/commits/master'
       } else {
