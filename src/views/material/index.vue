@@ -11,8 +11,8 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="全部图片" name='all'>
             <div class="img-list">
-                <el-card class="img-card" v-for="item in list" :key="item.id">
-                    <img :src="item.url" alt="">
+                <el-card class="img-card" v-for="(item,index) in list" :key="item.id">
+                    <img @click="openDialog(index)" :src="item.url" alt="">
                     <el-row class="imgStyle" type="flex" align="middle" justify="space-around">
                         <i @click=" cancelOrcollection(item)" class="el-icon-star-on" :style="{color: item.is_collected ? 'red' : '#000'}"></i>
                         <i @click="delImg(item.id)" class="el-icon-delete-solid"></i>
@@ -22,8 +22,8 @@
         </el-tab-pane>
         <el-tab-pane label="收藏图片" name='scend'>
              <div class="img-list">
-                <el-card class="img-card" v-for="item in list" :key="item.id">
-                    <img :src="item.url" alt="">
+                <el-card class="img-card" v-for="(item,index) in list" :key="item.id">
+                    <img @click="openDialog(index)" :src="item.url" alt="">
                 </el-card>
             </div>
         </el-tab-pane>
@@ -36,6 +36,13 @@
                 @current-change="changPage">
             </el-pagination>
         </el-row>
+        <el-dialog @opened='openedEnd' :visible="dialogVisible" @close="dialogVisible=false">
+            <el-carousel ref="myCarousel" indicator-position="outside" height='500px'>
+              <el-carousel-item v-for="(item,index) in list" :key="index">
+                <img :src="item.url" alt="" style="width:100%;height:100%">
+              </el-carousel-item>
+            </el-carousel>
+        </el-dialog>
   </el-card>
 </template>
 
@@ -50,10 +57,20 @@ export default {
         total: 0, // 总页数
         pageSize: 8, // 每页条数
         currentPage: 1// 当前页数
-      }
+      },
+      dialogVisible: false, // 默认关闭弹层
+      newindex: -1 // 默认给一个值
     }
   },
   methods: {
+    openedEnd () {
+      this.$refs.myCarousel.setActiveItem(this.newindex)
+    },
+    // 打弹层走马灯
+    openDialog (index) {
+      this.dialogVisible = true
+      this.newindex = index
+    },
     // 删除图片
     delImg (id) {
       this.$confirm('是否删除该图片?').then(() => {
