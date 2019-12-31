@@ -4,7 +4,7 @@
     <img src="../../assets/img/logo_admin.png" alt="">
   </div>
   <el-menu router background-color="#353b4e" text-color="#adafb5" active-text-color="#ffd04b">
-      <el-menu-item>
+      <el-menu-item @click="jumpHome">
         <span slot="title" index="/home">首页</span>
       </el-menu-item>
       <el-submenu index="1">
@@ -32,6 +32,11 @@
 
 <script>
 export default {
+  methods: {
+    jumpHome () {
+      this.$router.push('/home')
+    }
+  }
 
 }
 </script>
